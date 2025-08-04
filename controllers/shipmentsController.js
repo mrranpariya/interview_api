@@ -28,6 +28,12 @@ exports.addNewHope = async (req, res) => {
   const shipment = await shipments.findOne({
     shipment_number: shipment_number,
   });
+  if (!shipment) {
+    res.status(400).json({
+      success: false,
+      message: "not found.",
+    });
+  }
   const hopes = shipment.hopes;
   hopes.push(new_hop);
   shipment.hopes = hopes;
@@ -37,7 +43,11 @@ exports.addNewHope = async (req, res) => {
 
 exports.getAllshipments = async (req, res) => {
   const { shipment_number } = req.params;
-  const shipment = shipments.find({ shipment_number: shipment_number });
+
+  const shipment = await shipments.find(
+    {},
+    { shipment_number: Number(shipment_number) }
+  );
 
   if (!shipment) {
     res.status(400).json({
@@ -45,6 +55,7 @@ exports.getAllshipments = async (req, res) => {
       message: "Shipment with ID 12345 not found.",
     });
   }
+
   res.status(200).json({
     success: true,
     message: "Hopes retrieved successfully",

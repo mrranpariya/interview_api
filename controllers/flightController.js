@@ -27,7 +27,7 @@ exports.updateStatus = async (req, res) => {
   const { status } = req.body;
   const { flight_number } = req.params;
 
-  const flight = fightSchema.findOneAndUpdate(
+  const flight = await fightSchema.findOneAndUpdate(
     { flight_number: String(flight_number) },
     { $set: { status: status } },
     { new: true }
