@@ -9,7 +9,8 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => res.status(200).json({ message: "running" }));
-app.use("/api", routes);
+// router.post("/shipments/create", createShipment);
+app.use("/shipments", routes);
 
 app.use(errorHandler);
 
